@@ -7,8 +7,10 @@
   <artifactId>calculator</artifactId>
   <version>1.0</version>
   <packaging>war</packaging>
+
   <build>
     <plugins>
+      <!-- Maven Compiler Plugin -->
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
@@ -17,25 +19,29 @@
           <target>11</target>
         </configuration>
       </plugin>    
+
+      <!-- Maven WAR Plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
-        <version>2.1.1</version>
+        <version>3.3.1</version> <!-- Updated version -->
       </plugin>
+
+      <!-- Jetty Plugin -->
       <plugin>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
-        <version>9.2.9.v20150224</version>
+        <version>9.4.43.v20210629</version> <!-- Updated version -->
         <configuration>
           <webApp>
             <contextPath>/</contextPath>
           </webApp>
-          <webAppSourceDirectory>target/${project.artifactId}-${project.version}</webAppSourceDirectory>
+          <webAppSourceDirectory>target/${project.build.finalName}</webAppSourceDirectory> <!-- Updated to follow convention -->
           <stopPort>8079</stopPort>
           <stopKey>stopit</stopKey>
           <stopWait>10</stopWait>
           <httpConnector>
-            <!--<port>8080</port>-->
+            <port>8080</port> <!-- Uncommented for usage -->
             <idleTimeout>60000</idleTimeout>
           </httpConnector>
         </configuration>
@@ -62,7 +68,9 @@
       </plugin>
     </plugins>
   </build>
+
   <dependencies>
+    <!-- Jersey Dependencies -->
     <dependency>
       <groupId>org.glassfish.jersey.containers</groupId>
       <artifactId>jersey-container-servlet-core</artifactId>
