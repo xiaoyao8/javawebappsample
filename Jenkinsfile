@@ -8,8 +8,8 @@ def getFtpPublishProfile(def publishProfilesJson) {
 }
 
 node {
-  withEnv(['AZURE_SUBSCRIPTION_ID=<a0a968bb-e871-4dad-9f51-019d20b4710e>',
-        'AZURE_TENANT_ID=<47ff4346-9232-4b98-928c-fcf46cce528f>']) {
+  withEnv(['AZURE_SUBSCRIPTION_ID=a0a968bb-e871-4dad-9f51-019d20b4710e',
+           'AZURE_TENANT_ID=47ff4346-9232-4b98-928c-fcf46cce528f']) {
     stage('init') {
       checkout scm
     }
@@ -19,10 +19,10 @@ node {
     }
   
     stage('deploy') {
-      def resourceGroup = '<jenkins-get-started-rg>'
-      def webAppName = '<my-webapp-unique>'
-      // login Azure
-      withCredentials([usernamePassword(credentialsId: '<AzureServicePrincipal>', passwordVariable: 'AZURE_CLIENT_SECRET', usernameVariable: 'AZURE_CLIENT_ID')]) {
+      def resourceGroup = 'jenkins-get-started-rg'
+      def webAppName = 'my-webapp-unique'
+      // login to Azure
+      withCredentials([usernamePassword(credentialsId: 'ca333572-xxxx-xxxx-xxxx-ae93ad88722e', passwordVariable: 'AZURE_CLIENT_SECRET', usernameVariable: 'AZURE_CLIENT_ID')]) {
        sh '''
           az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID
           az account set -s $AZURE_SUBSCRIPTION_ID
@@ -33,7 +33,6 @@ node {
       def ftpProfile = getFtpPublishProfile pubProfilesJson
       // upload package
       sh 'az webapp deploy --resource-group jenkins-get-started-rg --name my-webapp-unique --src-path target/app.war --type war'
-      //sh "curl -T target/calculator-1.0.war $ftpProfile.url/webapps/ROOT.war -u '$ftpProfile.username:$ftpProfile.password'"
       // log out
       sh 'az logout'
     }
